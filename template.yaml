@@ -8,8 +8,11 @@ Description: >
 Globals:
   Function:
     Timeout: 30
-
+# "x-amazon-apigateway-binary-media-types: [ "application/octet", "image/jpeg" ]
 Resources:
+  SourceBucket:
+    Type: 'AWS::S3::Bucket'
+
   RegistryIndex:
     Type: AWS::CodeCommit::Repository
     Properties:
@@ -34,6 +37,12 @@ Resources:
       CodeUri: download/
       Handler: app.lambda_handler
       Runtime: python3.7
+      Environment:
+        Variables:
+          BUCKETNAME: !Ref SourceBucket
+      Policies: 
+       - S3CrudPolicy: 
+          BucketName: !Ref SourceBucket
       Events:
         HelloWorld:
           Type: Api
