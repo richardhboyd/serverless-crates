@@ -1,0 +1,21 @@
+[registry]
+default = "my-registry"  
+
+[registries.my-registry]
+index = "https://git-codecommit.us-west-2.amazonaws.com/v1/repos/RegistryIndex"
+
+[source.crates-io]
+replace-with = "my-vendor-source"
+
+[source.my-vendor-source]
+registry = "https://git-codecommit.us-west-2.amazonaws.com/v1/repos/RegistryIndex"
+# branch = "main"
+
+[net]
+git-fetch-with-cli = true
+
+[term]
+verbose = true
+
+[http]
+debug = true

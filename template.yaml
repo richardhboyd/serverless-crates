@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  cargo-local
+
+  Sample SAM Template for cargo-local
+
+Globals:
+  Function:
+    Timeout: 30
+
+Resources:
+  RegistryIndex:
+    Type: AWS::CodeCommit::Repository
+    Properties:
+      RepositoryName: RegistryIndex
+      RepositoryDescription: This is the registry index for my registry.
+
+  SearchFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: search/
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /api/v1/crates
+            Method: get
+  DownloadFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: download/
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /api/v1/crates/{crate}/{version}/download
+            Method: get
